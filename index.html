@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>For Sophia ✨</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;1,400;1,600&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--blush:#fff0f5;--rose:#ff5c8a;--deep:#c2185b;--petal:#ffc2d6;--wine:#5a1632;--card:rgba(255,255,255,.72)}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Quicksand',system-ui,sans-serif;color:var(--wine);background:linear-gradient(160deg,#fff0f5,#ffd6e5 55%,#ffc2d6);min-height:100vh;overflow-x:hidden;
+cursor:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32'%3E%3Cpath d='M16 28S3 19 3 10.5A6.5 6.5 0 0 1 16 8a6.5 6.5 0 0 1 13 2.5C29 19 16 28 16 28z' fill='%23ff5c8a' stroke='%23fff' stroke-width='2'/%3E%3C/svg%3E") 16 16,auto}
+a,button,.flip,input{cursor:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='36' height='36'%3E%3Cpath d='M18 32S3 21.500 3 12A7.500 7.500 0 0 1 18 9a7.500 7.500 0 0 1 15 3C33 21.500 18 32 18 32z' fill='%23c2185b' stroke='%23fff' stroke-width='2'/%3E%3C/svg%3E") 18 18,pointer}
+h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-style:italic;font-weight:600;color:var(--deep)}
+canvas#fx{position:fixed;inset:0;pointer-events:none;z-index:1}
+.trail{position:fixed;pointer-events:none;z-index:9999;font-size:16px;animation:fade .9s forwards}
+@keyframes fade{to{opacity:0;transform:translateY(-30px) scale(.4)}}
+
+/* lock */
+#lock{position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 30% 20%,#ffd6e5,#ff9ebb 70%);padding:20px}
+#lock .box{background:var(--card);backdrop-filter:blur(14px);border:2px solid #fff;border-radius:28px;padding:40px 32px;max-width:380px;width:100%;text-align:center;box-shadow:0 20px 60px rgba(194,24,91,.3)}
+#lock .heart{font-size:64px;display:inline-block;animation:beat 1.2s infinite}
+@keyframes beat{0%,100%{transform:scale(1)}15%{transform:scale(1.2)}30%{transform:scale(1)}45%{transform:scale(1.15)}}
+#lock h2{font-size:30px;margin:10px 0 6px}
+#lock p{font-size:14px;margin-bottom:18px}
+#lock input{width:100%;padding:14px 18px;border:2px solid var(--petal);border-radius:999px;font:inherit;text-align:center;outline:none;background:#fff;color:var(--wine)}
+#lock input:focus{border-color:var(--rose);box-shadow:0 0 0 4px rgba(255,92,138,.2)}
+.btn{margin-top:14px;padding:13px 28px;border:0;border-radius:999px;background:linear-gradient(135deg,#ff7aa2,#e91e63);color:#fff;font:600 16px 'Quicksand',sans-serif;box-shadow:0 8px 20px rgba(233,30,99,.35);transition:transform .2s}
+.btn:hover{transform:translateY(-2px) scale(1.04)}
+#err{color:var(--deep);font-size:13px;min-height:20px;margin-top:10px}
+.shake{animation:shake .4s}
+@keyframes shake{25%{transform:translateX(-10px)}75%{transform:translateX(10px)}}
+
+/* main */
+#site{display:none;position:relative;z-index:2}
+section{max-width:960px;margin:0 auto;padding:70px 22px}
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.hero h1{font-size:clamp(44px,10vw,92px);line-height:1.05}
+.hero .sub{font-size:clamp(16px,3vw,22px);margin-top:16px;min-height:2.2em;max-width:560px}
+.hero .cursor{display:inline-block;width:2px;background:var(--deep);margin-left:2px;animation:blink 1s infinite}
+@keyframes blink{50%{opacity:0}}
+.pill{display:inline-block;margin-top:22px;padding:8px 18px;border-radius:999px;background:#fff;color:var(--deep);font-weight:600;font-size:14px;box-shadow:0 4px 14px rgba(194,24,91,.15)}
+h2.t{font-size:clamp(30px,6vw,46px);text-align:center;margin-bottom:34px}
+
+.photos{display:flex;gap:34px;justify-content:center;flex-wrap:wrap}
+.polaroid{background:#fff;padding:12px 12px 16px;border-radius:6px;width:min(300px,88vw);box-shadow:0 14px 34px rgba(194,24,91,.25);transition:transform .35s}
+.polaroid:nth-child(1){transform:rotate(-4deg)}.polaroid:nth-child(2){transform:rotate(3.500deg)}
+.polaroid:hover{transform:rotate(0) scale(1.06)}
+.polaroid .ph{aspect-ratio:4/5;border-radius:3px;overflow:hidden;background:linear-gradient(135deg,#ffd6e5,#ff9ebb);display:flex;align-items:center;justify-content:center;font-size:60px}
+.polaroid img{width:100%;height:100%;object-fit:cover;display:block}
+.polaroid p{font-family:'Fraunces',serif;font-style:italic;text-align:center;margin-top:12px;color:var(--deep)}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:20px}
+.flip{perspective:900px;height:190px}
+.flip .in{position:relative;width:100%;height:100%;transition:transform .7s;transform-style:preserve-3d}
+.flip.on .in{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;border-radius:22px;padding:20px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;box-shadow:0 10px 26px rgba(194,24,91,.18)}
+.front{background:var(--card);backdrop-filter:blur(8px);border:2px solid #fff}
+.front b{font-size:42px}.front span{font-family:'Fraunces',serif;font-style:italic;font-size:20px;color:var(--deep);margin-top:6px}
+.back{background:linear-gradient(135deg,#ff7aa2,#e91e63);color:#fff;transform:rotateY(180deg);font-size:15px;line-height:1.5}
+
+.gen{background:var(--card);backdrop-filter:blur(10px);border:2px solid #fff;border-radius:28px;padding:36px 24px;text-align:center;box-shadow:0 12px 34px rgba(194,24,91,.18)}
+#line{font-family:'Fraunces',serif;font-style:italic;font-size:clamp(20px,4vw,28px);min-height:3.2em;color:var(--deep);display:flex;align-items:center;justify-content:center}
+
+.meter{max-width:620px;margin:0 auto}
+.bar{margin-bottom:20px}
+.bar label{display:flex;justify-content:space-between;font-weight:600;margin-bottom:6px}
+.track{height:16px;border-radius:99px;background:#fff;overflow:hidden;box-shadow:inset 0 2px 5px rgba(194,24,91,.15)}
+.fill{height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,#ffa4c0,#e91e63);transition:width 1.6s cubic-bezier(.2,.8,.2,1)}
+
+.letter{background:#fffafc;border-radius:12px;padding:38px 30px;max-width:640px;margin:0 auto;box-shadow:0 14px 34px rgba(194,24,91,.2);border-left:6px solid var(--rose);line-height:1.8;font-size:17px}
+.letter h3{font-size:28px;margin-bottom:12px}
+.letter .sig{font-family:'Fraunces',serif;font-style:italic;color:var(--deep);margin-top:16px;font-size:20px}
+
+.stars{display:flex;justify-content:center;gap:10px;font-size:40px}
+.stars span{filter:grayscale(1) opacity(.45);transition:.2s;display:inline-block}
+.stars span.on{filter:none;transform:scale(1.15)}
+.stars+p{text-align:center;margin-top:12px;font-weight:600;color:var(--deep);min-height:1.5em}
+
+footer{text-align:center;padding:50px 20px 70px;font-family:'Fraunces',serif;font-style:italic;color:var(--deep)}
+#top{position:fixed;right:18px;bottom:18px;z-index:50;width:46px;height:46px;border-radius:50%;border:0;background:var(--rose);color:#fff;font-size:20px;box-shadow:0 6px 16px rgba(233,30,99,.4)}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+.halo{width:150px;height:150px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:64px;background:radial-gradient(circle,#fff,#ffc2d6);box-shadow:0 0 0 8px rgba(255,255,255,.6),0 0 60px 20px rgba(255,92,138,.55);animation:aura 2.6s ease-in-out infinite;margin-bottom:22px}
+@keyframes aura{50%{box-shadow:0 0 0 14px rgba(255,255,255,.8),0 0 100px 40px rgba(255,92,138,.8)}}
+.gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:20px}
+.gallery .polaroid{width:auto}
+.gallery .polaroid:nth-child(odd){transform:rotate(-2.500deg)}
+.gallery .polaroid:nth-child(even){transform:rotate(2.500deg)}
+.gallery .polaroid:hover{transform:rotate(0) scale(1.07)}
+.gallery .polaroid p{font-size:13px}
+.auraBtn{font-size:22px;padding:18px 40px}
+#pts{font-family:'Fraunces',serif;font-size:clamp(34px,8vw,60px);color:var(--deep);font-style:italic}
+</style>
+</head>
+<body>
+<canvas id="fx"></canvas>
+
+<div id="lock">
+  <div class="box" id="lbox">
+    <div class="heart">💗</div>
+    <h2>Hey Sophia…</h2>
+    <p>This little corner of the internet was made just for you. Enter the secret word to unlock it.</p>
+    <input id="pw" type="password" placeholder="Secret word" autocomplete="off">
+    <div id="err"></div>
+    <button class="btn" id="go">Unlock 💌</button>
+    <p style="margin-top:14px;font-size:12px;opacity:.7">Hint: your name + the year we became friends</p>
+  </div>
+</div>
+
+<main id="site">
+  <section class="hero">
+    <div class="halo">✨</div>
+    <h1>Sophia</h1>
+    <p class="sub"><span id="typed"></span><span class="cursor">&nbsp;</span></p>
+    <span class="pill">♾️ Infinite aura, certified</span>
+  </section>
+
+  <section>
+    <h2 class="t">Gallery of good vibes 📸</h2>
+    <div class="gallery"><div class="polaroid"><div class="ph"><img src="im1.jpeg" alt="Sophia photo 1" onerror="this.replaceWith('🌸')"></div><p>Pure sunshine</p></div><div class="polaroid"><div class="ph"><img src="im2.jpeg" alt="Sophia photo 2" onerror="this.replaceWith('✨')"></div><p>Main character</p></div><div class="polaroid"><div class="ph"><img src="im3.jpeg" alt="Sophia photo 3" onerror="this.replaceWith('💖')"></div><p>Aura: loading…</p></div><div class="polaroid"><div class="ph"><img src="im4.jpeg" alt="Sophia photo 4" onerror="this.replaceWith('🦋')"></div><p>Good vibes only</p></div><div class="polaroid"><div class="ph"><img src="im5.jpeg" alt="Sophia photo 5" onerror="this.replaceWith('🌷')"></div><p>Smile unlocked</p></div><div class="polaroid"><div class="ph"><img src="im6.jpeg" alt="Sophia photo 6" onerror="this.replaceWith('🎀')"></div><p>Cute mode</p></div><div class="polaroid"><div class="ph"><img src="im7.jpeg" alt="Sophia photo 7" onerror="this.replaceWith('🌈')"></div><p>Bright day</p></div><div class="polaroid"><div class="ph"><img src="im8.jpeg" alt="Sophia photo 8" onerror="this.replaceWith('💫')"></div><p>Legend status</p></div><div class="polaroid"><div class="ph"><img src="im9.jpeg" alt="Sophia photo 9" onerror="this.replaceWith('🍓')"></div><p>Sweet as ever</p></div><div class="polaroid"><div class="ph"><img src="im10.jpeg" alt="Sophia photo 10" onerror="this.replaceWith('👑')"></div><p>Aura: infinite</p></div></div>
+  </section>
+
+  <section>
+    <h2 class="t">Tap the cards, Sophia 💞</h2>
+    <div class="grid">
+      <div class="flip"><div class="in"><div class="face front"><b>♾️</b><span>Infinite aura</span></div><div class="face back">You walk in and the whole room feels better. Nobody else has aura like yours.</div></div></div>
+      <div class="flip"><div class="in"><div class="face front"><b>😊</b><span>That smile</span></div><div class="face back">Cute, warm and contagious. One smile from you and the day is fixed.</div></div></div>
+      <div class="flip"><div class="in"><div class="face front"><b>💬</b><span>Great friend</span></div><div class="face back">Fun to talk to, easy to laugh with, and always bringing good energy.</div></div></div>
+      <div class="flip"><div class="in"><div class="face front"><b>🌟</b><span>Main character</span></div><div class="face back">You have the kind of confidence that makes everyone around you braver.</div></div></div>
+      <div class="flip"><div class="in"><div class="face front"><b>🌈</b><span>Good vibes</span></div><div class="face back">You make ordinary days feel like something worth celebrating.</div></div></div>
+      <div class="flip"><div class="in"><div class="face front"><b>🎀</b><span>So cute</span></div><div class="face back">Your style, your laugh, your energy. All of it is adorable and 100% you.</div></div></div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="t">Aura generator ♾️</h2>
+    <div class="gen" style="margin-bottom:26px">
+      <div id="pts">0</div>
+      <p style="margin:6px 0 0">Aura points (tap to earn more)</p>
+      <button class="btn auraBtn" id="aura">+1000 aura ✨</button>
+    </div>
+    <div class="gen">
+      <div id="line">Press the button, Sophia…</div>
+      <button class="btn" id="next">Give me a compliment 💘</button>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="t">Friendship meter 📈</h2>
+    <div class="meter">
+      <div class="bar"><label><span>Aura</span><span>∞</span></label><div class="track"><div class="fill" data-w="100"></div></div></div>
+      <div class="bar"><label><span>Cuteness</span><span>1000%</span></label><div class="track"><div class="fill" data-w="100"></div></div></div>
+      <div class="bar"><label><span>Good vibes</span><span>100%</span></label><div class="track"><div class="fill" data-w="100"></div></div></div>
+      <div class="bar"><label><span>Making me smile</span><span>∞</span></label><div class="track"><div class="fill" data-w="100"></div></div></div>
+      <div class="bar"><label><span>Fun to talk to</span><span>99%</span></label><div class="track"><div class="fill" data-w="99"></div></div></div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="t">A little note 💌</h2>
+    <div class="letter">
+      <h3>Dear Sophia,</h3>
+      <p>I'm really glad we became friends. You're cute, you're fun, and your aura is honestly on another level. Talking to you always leaves me in a better mood.</p>
+      <p style="margin-top:10px">Thank you for the laughs and the good vibes. I hope this friendship keeps growing, and I hope you always stay as bright as you are right now. 🌷</p>
+      <div class="sig">Your friend, Suffian (Zane) 💗</div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="t">Rate our friendship</h2>
+    <div class="stars" id="stars"><span>⭐</span><span>⭐</span><span>⭐</span><span>⭐</span><span>⭐</span></div>
+    <p id="rmsg">Tap the stars…</p>
+  </section>
+
+  <section style="text-align:center">
+    <button class="btn" id="boom" style="font-size:20px;padding:16px 36px">Click for a surprise 🎉</button>
+  </section>
+
+  <footer>Made with 💗 for Sophia · Good friends, infinite aura</footer>
+  <button id="top" aria-label="Back to top">↑</button>
+</main>
+
+<script>
+const PASS="sophia2026"; // change this to whatever secret word you like
+const $=s=>document.querySelector(s);
+
+// floating hearts + confetti canvas
+const cv=$('#fx'),cx=cv.getContext('2d');let W,H;
+function rs(){W=cv.width=innerWidth;H=cv.height=innerHeight}rs();addEventListener('resize',rs);
+const em=['💗','💖','🌸','💕','✨','🌷'];
+const hearts=Array.from({length:22},()=>({x:Math.random()*W,y:Math.random()*H,s:14+Math.random()*22,v:.3+Math.random()*.8,e:em[Math.floor(Math.random()*em.length)],o:.25+Math.random()*.4,p:Math.random()*6}));
+let conf=[];
+function burst(x,y){for(let i=0;i<70;i++){const a=Math.random()*6.283,s=3+Math.random()*7;conf.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s-4,e:em[Math.floor(Math.random()*em.length)],l:90,z:14+Math.random()*14})}}
+(function loop(){cx.clearRect(0,0,W,H);
+ hearts.forEach(h=>{h.y-=h.v;h.p+=.02;if(h.y<-40){h.y=H+40;h.x=Math.random()*W}cx.globalAlpha=h.o;cx.font=h.s+'px serif';cx.fillText(h.e,h.x+Math.sin(h.p)*20,h.y)});
+ conf=conf.filter(c=>c.l>0);conf.forEach(c=>{c.x+=c.vx;c.y+=c.vy;c.vy+=.25;c.l--;cx.globalAlpha=Math.min(1,c.l/30);cx.font=c.z+'px serif';cx.fillText(c.e,c.x,c.y)});
+ requestAnimationFrame(loop)})();
+
+// cursor sparkle trail
+let last=0;
+addEventListener('mousemove',e=>{const n=Date.now();if(n-last<55)return;last=n;
+ const t=document.createElement('div');t.className='trail';t.textContent=['💗','✨','🌸'][Math.floor(Math.random()*3)];
+ t.style.left=e.clientX+8+'px';t.style.top=e.clientY+8+'px';document.body.appendChild(t);setTimeout(()=>t.remove(),900)});
+addEventListener('click',e=>burst(e.clientX,e.clientY));
+
+// unlock
+function unlock(){
+ if($('#pw').value.trim().toLowerCase()===PASS.toLowerCase()){
+  $('#lock').style.display='none';$('#site').style.display='block';window.scrollTo(0,0);
+  burst(innerWidth/2,innerHeight/2);typeIt();bars();
+ }else{$('#err').textContent='Hmm, not quite. Try again, cutie 💕';const b=$('#lbox');b.classList.remove('shake');void b.offsetWidth;b.classList.add('shake')}
+}
+$('#go').onclick=unlock;$('#pw').addEventListener('keydown',e=>{if(e.key==='Enter')unlock()});
+
+// typing
+function typeIt(){const msg="Welcome to your very own celebration of friendship. Hope this makes you smile. 💗";let i=0;const el=$('#typed');
+ (function t(){if(i<=msg.length){el.textContent=msg.slice(0,i++);setTimeout(t,45)}})()}
+
+// bars animate on scroll
+function bars(){const io=new IntersectionObserver(es=>es.forEach(x=>{if(x.isIntersecting){x.target.style.width=x.target.dataset.w+'%'}}),{threshold:.4});
+ document.querySelectorAll('.fill').forEach(f=>io.observe(f))}
+
+// flip cards
+document.querySelectorAll('.flip').forEach(f=>f.onclick=()=>f.classList.toggle('on'));
+
+// compliments
+const lines=["Your aura is so strong it has its own weather. ✨","Your smile makes everyone around you smile too.","You make any chat more fun. Never change.","Main character energy, no doubt about it. 🌟","You are proof that kind people shine the brightest.","Infinite aura is not a joke, it is a fact. ♾️","You are cute, funny and awesome. Triple threat. 🎀","Everyone should have a friend as great as you. Lucky me. 💗","You light up every conversation like a sky full of stars."];
+let li=-1;$('#next').onclick=()=>{let n;do{n=Math.floor(Math.random()*lines.length)}while(n===li);li=n;$('#line').textContent=lines[n]};
+
+let ap=0;$('#aura').onclick=()=>{ap+=1000;$('#pts').textContent=ap>=10000?'♾️ INFINITE':ap.toLocaleString();};
+// stars
+const sm=["Aww, we can do better 😉","Getting there! 💕","Pretty good, huh?","Almost perfect! 💖","Best friends energy! 🥰"];
+document.querySelectorAll('#stars span').forEach((s,i,all)=>s.onclick=()=>{all.forEach((x,j)=>x.classList.toggle('on',j<=i));$('#rmsg').textContent=sm[i]; if(i===4)burst(innerWidth/2,innerHeight/2)});
+
+$('#boom').onclick=()=>{for(let i=0;i<4;i++)setTimeout(()=>burst(Math.random()*innerWidth,Math.random()*innerHeight*.6+60),i*250)};
+$('#top').onclick=()=>scrollTo({top:0,behavior:'smooth'});
+</script>
+</body>
+</html>
